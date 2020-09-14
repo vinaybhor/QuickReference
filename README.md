@@ -131,4 +131,4 @@ public static String getPath(final Uri uri, Context context) {
     
     
     #If doesn't work----below library
-https://github.com/onimur/handle-path-oz?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=8142
+https://github.com/onimur/handle-path-oz
