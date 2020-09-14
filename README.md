@@ -11,7 +11,8 @@ for (E element : list) {
     }
         
 ======================================================
-#Get URI and file path from file chooser Intent
+
+# Get URI and file path from file chooser Intent
 public static String getPath(final Uri uri, Context context) {
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
         if(isKitKat) {
