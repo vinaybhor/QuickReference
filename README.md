@@ -136,7 +136,101 @@ https://github.com/onimur/handle-path-oz
 ================================================================================================================================
         QR READER
 implementation 'com.google.android.gms:play-services-vision:11.8.0'
+--------
+        Request Permission
+--------
+        private void requestPerm(){
+    ActivityCompat.requestPermissions(ActivityBasicNavigation.this, new
+            String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, REQUEST_MULTIPLE_PERMISSIONS);
+}
+--------
+        Check Permission
+--------
+        private boolean checkPermission() {
+        int cameraPerm = ActivityCompat.checkSelfPermission(ActivityBasicNavigation.this, Manifest.permission.CAMERA);
+        int storagePerm = ActivityCompat.checkSelfPermission(ActivityBasicNavigation.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int audioPerm = ActivityCompat.checkSelfPermission(ActivityBasicNavigation.this, Manifest.permission.RECORD_AUDIO);
 
+        return cameraPerm == PackageManager.PERMISSION_GRANTED &&
+                storagePerm == PackageManager.PERMISSION_GRANTED &&
+                audioPerm == PackageManager.PERMISSION_GRANTED;
+    }
+   -------
+        
+        if (checkPermission()){
+                    Constants constants = new Constants();
+                    Intent intent = new Intent(******.this, ********.class);
+                    startActivityForResult(intent, 0);
+                }else{
+                    requestPerm();
+                }
+        
+        -------------------------------------------------
+        
+        @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_MULTIPLE_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                // do Operation
+                Intent intent = new Intent(****************.this, **********.class);
+                startActivityForResult(intent, 0);
+            } else {
+                show_toastPermissions(ActivityBasicNavigation.this,"Permissions are Required to Proceed. Kindly Allow from settings");
+            }
+        }
+    }
+        
+        -------------------------------------------------------------------
+        
+        <RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp14"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorblack">
+    <FrameLayout
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        >
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_above="@+id/btnAction"
+            android:background="@drawable/border_surfaceview"
+            />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/txtBarcodeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:text="Read QR code to start Authentication"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+
+    <Button
+        android:id="@+id/btnAction"
+        android:backgroundTint="@color/colorblack"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_alignParentBottom="true"
+        android:text="Close" />
+</RelativeLayout>
+        
+        --------------------------------------------------------------------------
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
