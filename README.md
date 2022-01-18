@@ -295,3 +295,6 @@ implementation 'com.google.android.gms:play-services-vision:11.8.0'
 =======================================================================
         
         
+<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
