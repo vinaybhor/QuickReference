@@ -328,3 +328,71 @@ implementation 'com.google.android.gms:play-services-vision:11.8.0'
         return false;
     }
 }
+============================================================================
+        Digitally sign
+        ---------------
+        
+        public String sign(String plainText, String alias) throws Exception {
+        KeyStore keyStore=null;
+        try {
+            keyStore = KeyStore.getInstance("AndroidKeyStore");
+            keyStore.load(null);
+
+        }
+        catch(Exception e) {}
+        X509Certificate cert1 = (X509Certificate)keyStore.getCertificate(alias);
+        KeyPair keyPair = new KeyPair(cert1.getPublicKey(), (PrivateKey) keyStore.getKey(alias, null));
+        Signature privateSignature = Signature.getInstance("SHA256withRSA");
+        privateSignature.initSign(keyPair.getPrivate());
+        privateSignature.update(plainText.getBytes(UTF_8));
+
+        byte[] signature = privateSignature.sign();
+
+        return Base64.encodeToString(signature, Base64.DEFAULT);
+    }
+          ---------------
+        verify digital sign
+          ---------------
+        public boolean verify(String plainText, String signature, String Publickey) throws Exception {
+        KeyStore keyStore=null;
+        try {
+            keyStore = KeyStore.getInstance("AndroidKeyStore");
+            keyStore.load(null);
+
+        }
+        catch(Exception e) {}
+        CertificateFactory certificateFactory=CertificateFactory.getInstance("X.509");
+        InputStream inputStream=new ByteArrayInputStream(Base64.decode(Publickey, Base64.DEFAULT));
+        X509Certificate x509Certificate=(X509Certificate)certificateFactory.generateCertificate(inputStream);
+        PublicKey publicKey =x509Certificate.getPublicKey();
+
+        Signature publicSignature = Signature.getInstance("SHA256withRSA");
+        publicSignature.initVerify(publicKey);
+        publicSignature.update(plainText.getBytes(UTF_8));
+
+        byte[] signatureBytes = Base64.decode(signature, Base64.DEFAULT);
+
+        return publicSignature.verify(signatureBytes);
+    }
+        --------------
+        Generate Keypair
+        --------------
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(
+                KeyProperties.KEY_ALGORITHM_RSA, "AndroidKeyStore");
+
+kpg.initialize(new KeyGenParameterSpec.Builder(
+                alias,
+                KeyProperties.PURPOSE_SIGN | KeyProperties.PURPOSE_VERIFY)
+                .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+                .setKeySize(keySize)
+                .build());
+
+KeyPair keyPair = kpg.generateKeyPair();
+        --------------
+        Load Keys
+        --------------
+        KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+keyStore.load(null);
+KeyStore.Entry entry = keyStore.getEntry(alias, null);
+PrivateKey privateKey = ((KeyStore.PrivateKeyEntry) entry).getPrivateKey();
+PublicKey publicKey = keyStore.getCertificate(alias).getPublicKey();
