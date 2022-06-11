@@ -377,17 +377,41 @@ implementation 'com.google.android.gms:play-services-vision:11.8.0'
         --------------
         Generate Keypair
         --------------
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance(
-                KeyProperties.KEY_ALGORITHM_RSA, "AndroidKeyStore");
+        public KeyPair show(Context context, String alias) {
+//        try {
+//            keyStore = KeyStore.getInstance("AndroidKeyStore");
+//            keyStore.load(null);
+//
+//        }
+//        catch(Exception e) {}
 
-kpg.initialize(new KeyGenParameterSpec.Builder(
-                alias,
-                KeyProperties.PURPOSE_SIGN | KeyProperties.PURPOSE_VERIFY)
-                .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
-                .setKeySize(keySize)
-                .build());
+        try {
+            // Create new key if needed
+            //if (!keyStore.containsAlias(alias)) {
+//                Toast toast = Toast.makeText(context, "Not", Toast.LENGTH_LONG);
+//       toast.show();
+            Calendar start = Calendar.getInstance();
+            Calendar end = Calendar.getInstance();
+            end.add(Calendar.YEAR, 1);
+            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
+                    .setAlias(alias)
+                    .setSubject(new X500Principal("CN=RIL, O=RJIL"))
+                    .setSerialNumber(BigInteger.ONE)
+                    .setStartDate(start.getTime())
+                    .setEndDate(end.getTime())
+                    .build();
+            KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
+            generator.initialize(spec);
 
-KeyPair keyPair = kpg.generateKeyPair();
+            keyPair = generator.generateKeyPair();
+
+            // }
+        } catch (Exception e) {
+            Toast.makeText(context, "Exception " + e.getMessage() + " occured", Toast.LENGTH_LONG).show();
+            // Log.e(TAG, Log.getStackTraceString(e));
+        }
+        return keyPair;
+    }
         --------------
         Load Keys
         --------------
