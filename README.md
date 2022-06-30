@@ -425,60 +425,65 @@ PublicKey publicKey = keyStore.getCertificate(alias).getPublicKey();
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 
-public void show_toastUpdate(Activity context,String title,String description) {
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    >
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/whiteback"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="@dimen/text_size2"
+            android:layout_width="wrap_content"
+            android:background="@drawable/jioidsmalllogo"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_wrongpin"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_size2"
+            android:textColor="@color/colorRed"
+            android:layout_marginTop="@dimen/text_size2"
+            android:text="@string/wrongimage"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_jioid"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/text_size1"
+            android:layout_marginRight="@dimen/text_size1"
+            android:layout_marginTop="@dimen/text_size24"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_size2"
+            android:textColor="@color/colorblack"
+            android:layout_height="wrap_content" />
+        <LinearLayout
 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.updatetoast_layout);
-        TextView tv_wrongpin= dialog.findViewById(R.id.tv_wrongpin);
-        tv_wrongpin.setText(title);
-        Button btn_update = dialog.findViewById(R.id.btn_update);
-        Button btn_later = dialog.findViewById(R.id.btn_later);
+            <Button
+                android:id="@+id/btn_update"
+                android:padding="@dimen/dp5"
+                android:layout_margin="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/updateNow"/>
+        </LinearLayout>
 
-        btn_update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("detectit", "onClick: Redirecting to Playstore");
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(browserIntent);
-            }
-        });
-        btn_later.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                init();
-                Log.d("detectit", "onClick: Not Redirecting to Playstore");
-            }
-        });
-        TextView tv_jioid=dialog.findViewById(R.id.tv_jioid);
-        tv_jioid.setText(description);
-        dialog.show();
-    }
-    public void show_toastMandatoryUpdate(Activity context,String title,String description) {
-
-
-
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.updatemusttoast_layout);
-        TextView tv_wrongpin= dialog.findViewById(R.id.tv_wrongpin);
-        tv_wrongpin.setText(title);
-        Button okButton = dialog.findViewById(R.id.btn_update);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(browserIntent);
-            }
-        });
-        TextView tv_jioid=dialog.findViewById(R.id.tv_jioid);
-        tv_jioid.setText(description);
-        dialog.show();
-    }
 
     </LinearLayout>
 
