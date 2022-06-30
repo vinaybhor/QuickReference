@@ -424,8 +424,7 @@ PublicKey publicKey = keyStore.getCertificate(alias).getPublicKey();
 
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
-
-
-show_toastUpdate(Splash_Screen.this,getString(R.string.optional_title),getString(R.string.optional_description));
-        
-show_toastMandatoryUpdate(Splash_Screen.this,getString(R.string.mandatory_title),getString(R.string.mandatory_description));
+<string name="optional_title">We have a new Update</string>
+    <string name="optional_description">We have a new update waiting for you. Please update the app for best experience.</string>
+    <string name="mandatory_title">Jio SecureID needs an update</string>
+    <string name="mandatory_description">An update is now available. This is a mandatory update. Please update the app to continue using it. Thank you!</string>
